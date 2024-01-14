@@ -1,9 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-//    id("kotlin-android")
-//    id("kotlin-kapt")
-//    id("dagger.hilt.android.plugin")
+    id("kotlin-android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -53,7 +53,8 @@ dependencies {
 
 
     implementation("com.google.dagger:hilt-android:2.48")
-    //implementation("com.google.dagger:hilt-compiler:2.38.1")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    kapt("androidx.hilt:hilt-compiler:1.1.0")
 
     implementation( "androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
     implementation( "androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")

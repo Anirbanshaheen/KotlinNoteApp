@@ -11,14 +11,13 @@ import com.example.kotlinnoteapp.databinding.FragmentRegisterBinding
 
 class LoginFragment : Fragment() {
 
-    private var _binding : FragmentLoginBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding : FragmentLoginBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
 
         binding.btnLogin.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
@@ -30,6 +29,5 @@ class LoginFragment : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        _binding = null
     }
 }
