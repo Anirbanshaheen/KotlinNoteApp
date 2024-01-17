@@ -51,7 +51,23 @@ class RegisterFragment : Fragment() {
     private fun observers() {
 
         lifecycleScope.launch {
-            authViewModel.userResponseLiveData.collectLatest {
+            // todo new flow structure
+//            authViewModel.userResponseLiveData.collectLatest {
+//                binding.progressBar.isVisible = false
+//                when (it) {
+//                    is NetworkResult.SUCCESS -> {
+//                        findNavController().navigate(R.id.action_registerFragment_to_mainFragment)
+//                    }
+//                    is NetworkResult.ERROR -> {
+//                        binding.txtError.text = it.message
+//                    }
+//                    is NetworkResult.LOADING -> {
+//                        binding.progressBar.isVisible = true
+//                    }
+//                }
+//            }
+
+            authViewModel.userResponseLiveData.observe(viewLifecycleOwner) {
                 binding.progressBar.isVisible = false
                 when (it) {
                     is NetworkResult.SUCCESS -> {

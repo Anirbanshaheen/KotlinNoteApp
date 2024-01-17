@@ -1,5 +1,7 @@
 package com.example.kotlinnoteapp.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.kotlinnoteapp.api.UserAPI
 import com.example.kotlinnoteapp.models.UserRequest
 import com.example.kotlinnoteapp.models.UserResponse
@@ -11,10 +13,17 @@ import javax.inject.Inject
 
 class UserRepository @Inject constructor(private val userAPI: UserAPI) {
 
-    val userResponseObserver = MutableSharedFlow<NetworkResult<UserResponse>>()
+    // todo new flow structure
+    //val userResponseObserver = MutableSharedFlow<NetworkResult<UserResponse>>()
+
+
+    private val _userResponseLiveData = MutableLiveData<NetworkResult<UserResponse>>()
+    val userResponseLiveData: LiveData<NetworkResult<UserResponse>>
+        get() = _userResponseLiveData
 
     suspend fun registerUser(userRequest: UserRequest) {
-        userResponseObserver.emit(NetworkResult.LOADING())
+        // todo new flow structure
+        //userResponseObserver.emit(NetworkResult.LOADING())
 
         val response = userAPI.signup(userRequest)
         handleResponse(response)
@@ -27,13 +36,16 @@ class UserRepository @Inject constructor(private val userAPI: UserAPI) {
 
     private suspend fun handleResponse(response: Response<UserResponse>) {
         if (response.isSuccessful && response.body() != null) {
-            userResponseObserver.emit(NetworkResult.SUCCESS(response.body()!!))
+            // todo new flow structure
+            //userResponseObserver.emit(NetworkResult.SUCCESS(response.body()!!))
+
+            _userResponseLiveData.postValue(NetworkResult.SUCCESS(response.body()!!))
         } else if (response.errorBody() != null) {
             val errorObj = JSONObject(response.errorBody()!!.charStream().readText())
 
-            userResponseObserver.emit(NetworkResult.ERROR(errorObj.getString("message")))
+            _userResponseLiveData.postValue(NetworkResult.ERROR(errorObj.getString("message")))
         } else {
-            userResponseObserver.emit(NetworkResult.ERROR("Something went wrong"))
+            _userResponseLiveData.postValue(NetworkResult.ERROR("Something went wrong"))
         }
     }
 }
