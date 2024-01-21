@@ -14,9 +14,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthViewModel @Inject constructor(private val userRepository: UserRepository) : ViewModel() {
 
-    // todo new flow structure
-    //val userResponseLiveData = userRepository.userResponseObserver
-
     val userResponseLiveData : LiveData<NetworkResult<UserResponse>>
         get() = userRepository.userResponseLiveData
 
